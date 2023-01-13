@@ -5,6 +5,8 @@ import com.fantasy.tbs.domain.TimeBooking;
 import com.fantasy.tbs.repository.TimeBookingRepository;
 import com.fantasy.tbs.service.TimeBookingService;
 import com.fantasy.tbs.service.mapper.TimeBookMapper;
+
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -79,5 +81,19 @@ public class TimeBookingServiceImpl implements TimeBookingService {
     @Override
     public void bookTime(TimeBookDTO timeBookDTO) {
         timeBookingRepository.save(timeBookMapper.toTimeBooking(timeBookDTO));
+    }
+
+    @Override
+    public void triggerFutureTimeBookingCheckAndInform() {
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime start = now.withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
+        ZonedDateTime end = now.withHour(23).withMinute(59).withSecond(59).withNano(999000000).plusDays(1);
+        List<TimeBooking> timeBookingList = timeBookingRepository.listByBookingInterval(start, end);
+        timeBookingList.stream().parallel().forEach(timeBooking -> {
+            String num = timeBooking.getPersonalNumber();
+            ZonedDateTime booking = timeBooking.getBooking();
+            // todo inform employee of tomorrow's booking through texting his/her personalNumber
+
+        });
     }
 }
