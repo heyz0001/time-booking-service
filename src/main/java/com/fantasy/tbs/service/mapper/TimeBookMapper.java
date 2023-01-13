@@ -4,8 +4,10 @@ import com.fantasy.tbs.domain.TimeBookDTO;
 import com.fantasy.tbs.domain.TimeBooking;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper
+@Component
+@Mapper(componentModel = "spring")
 public interface TimeBookMapper {
     @Mapping(target = "booking", source = "timeStamp")
     TimeBooking toTimeBooking(TimeBookDTO timeBookDTO);

@@ -53,4 +53,9 @@ public interface TimeBookingService {
      * @param timeBookDTO
      */
     void bookTime(TimeBookDTO timeBookDTO);
+
+    /**
+     * trigger the query of all tomorrow's booking, and inform the right person with his/her time
+     */
+    void triggerFutureTimeBookingCheckAndInform();
 }
