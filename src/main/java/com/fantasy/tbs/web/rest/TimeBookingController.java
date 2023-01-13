@@ -25,8 +25,10 @@ public class TimeBookingController {
         return ResponseEntity.ok().build();
     }
 
+//    @Scheduled(cron = "*/1 * * * * ?")
     @Scheduled(cron = "0 0 17 * * ?")
     public void triggerFutureTimeBookingCheckAndInform() {
+//        System.out.println("cron take effect");
         timeBookingService.triggerFutureTimeBookingCheckAndInform();
     }
 }
